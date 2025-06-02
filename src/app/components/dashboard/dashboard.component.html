@@ -1,11 +1,18 @@
 <div class="profile-container">
-    <div class="profile-card">
+  <div class="profile-card">
+    <div class="profile-header">
       <img [src]="user?.image" alt="User Avatar" class="profile-avatar" />
       <h2>{{ user?.firstName }} {{ user?.lastName }}</h2>
       <p class="username">{{ user?.username }}</p>
-      <p>Gender: {{ user?.gender }}</p>
-      <a [href]="'mailto:' + user?.email">{{ user?.email }}</a>
-      <button (click)="logout()" class="logout-btn">Logout</button>
     </div>
+
+    <div class="profile-details">
+      <p><strong>Gender:</strong> {{ user?.gender }}</p>
+      <p><strong>Email:</strong> <a [href]="'mailto:' + user?.email">{{ user?.email }}</a></p>
+    </div>
+
+    <button (click)="logout()" class="logout-btn">
+      <i class="fa fa-sign-out-alt"></i> Logout
+    </button>
   </div>
-  
+</div>

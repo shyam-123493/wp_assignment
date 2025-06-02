@@ -1,12 +1,18 @@
-<div class="users-container">
-    <h2>User Table</h2>
-    <label for="search">Search by Name:</label>
-    <input
-      [(ngModel)]="searchTerm"
-      (input)="filterUsers()"
-      placeholder="SearchBy users Name ..."
-      class="search-input"
-    />
+<div *ngIf="isLoading" class="loader-container">
+  <div class="loader"></div>
+</div>
+
+<div class="search-container">
+  <label for="search">Search by Name:</label>
+  <input
+    type="text"
+    id="search"
+    [(ngModel)]="searchTerm"
+    (input)="filterUsers()"
+    placeholder="Search users by name..."
+    class="search-input"
+  />
+</div>
   
     <table class="user-table">
       <thead>
@@ -24,7 +30,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of filtered; let i = index">
+        <tr *ngFor="let user of paginatedUsers; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ user.firstName }}</td>
           <td>{{ user.lastName }}</td>
@@ -36,13 +42,50 @@
             <img [src]="user.image" alt="user" class="user-img" />
           </td>
           <td>
-            <button class="edit-btn" onclick="alert('Edit button clicked!')">Edit</button>
+            <button class="edit-btn" (click)="onEdit(user)">Edit</button>
           </td>
           <td>
-            <button class="details-btn" onclick="alert('View Details button clicked!')">View Details</button>
+            <button class="details-btn" (click)="openDetails(user)">View Details</button>
           </td>
         </tr>
       </tbody>
     </table>
+    <div class="pagination">
+      <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Prev</button>
+      
+      <ng-container *ngFor="let page of [].constructor(totalPages()); let i = index">
+        <button 
+          (click)="changePage(i + 1)" 
+          [class.active]="currentPage === i + 1">
+          {{ i + 1 }}
+        </button>
+      </ng-container>
+    
+      <button 
+        (click)="changePage(currentPage + 1)" 
+        [disabled]="currentPage === totalPages()">Next</button>
+    </div>
+    
+
+  <!-- Modal Overlay -->
+<div class="modal-overlay" *ngIf="selectedUser">
+  <div class="modal">
+    <h2>{{ selectedUser.firstName }} {{ selectedUser.lastName }}</h2>
+    <p><strong>Email:</strong> {{ selectedUser.email }}</p>
+    <p><strong>Phone:</strong> {{ selectedUser.phone }}</p>
+    <p><strong>Birth Date:</strong> {{ selectedUser.birthDate }}</p>
+    <p><strong>Address:</strong> {{ selectedUser.address?.address }}, {{ selectedUser.address?.city }}</p>
+    <p><strong>Company:</strong> {{ selectedUser.company?.name }}</p>
+    <p><strong>Role:</strong> {{ selectedUser.role }}</p>
+    <p><strong>Blood Group:</strong> {{ selectedUser.bloodGroup }}</p>
+
+    <button class="close-btn" (click)="closeModal()">Close</button>
   </div>
+</div>
+
+<app-user-details   *ngIf="showEditPopup"
+[user]="editUserData"
+(update)="onUpdate($event)"
+(close)="onClosePopup()"></app-user-details>
+
   

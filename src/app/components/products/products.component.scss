@@ -61,4 +61,74 @@ table {
     border: 1px solid #ccc;
     border-radius: 4px;
   }
-  
+.pagination {
+  margin-top: 15px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  border: 1px solid #007bff;
+  background: white;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+  font-family: Arial, sans-serif;
+}
+
+.close-btn {
+  margin-top: 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.close-btn:hover {
+  background-color: #0056b3;
+}
+

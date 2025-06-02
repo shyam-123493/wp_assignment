@@ -1,81 +1,194 @@
-.users-container {
-    padding: 2rem;
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Modal Box */
+.modal {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  animation: scaleIn 0.3s ease-in-out;
+  position: relative;
+}
+
+.modal h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  font-size: 24px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.modal p {
+  margin: 10px 0;
+  color: #555;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* Close Button */
+.close-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  float: right;
+  transition: background 0.3s;
+}
+
+.close-btn:hover {
+  background: #c0392b;
+}
+
+/* Details Button */
+.details-btn {
+  padding: 6px 12px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.3s;
+}
+
+.details-btn:hover {
+  background: #2980b9;
+}
+
+/* Edit Button */
+.edit-btn {
+  padding: 6px 12px;
+  background: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.3s;
+}
+
+.edit-btn:hover {
+  background: #27ae60;
+}
+
+/* Table Styling */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.user-table th, .user-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.user-table th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.user-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Pagination Styling */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 8px;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  background: #f1f1f1;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.pagination button.active,
+.pagination button:hover {
+  background: #3498db;
+  color: white;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Search Container */
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  gap: 8px;
+}
+
+.search-container label {
+  font-weight: 600;
+  font-size: 16px;
+  color: #2c3e50;
+}
+
+.search-input {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  max-width: 350px;
+  font-size: 14px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.4);
+}
+
+/* Responsive Behavior */
+@media (min-width: 600px) {
+  .search-container {
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
   }
-  
-  h2 {
-    margin-bottom: 1rem;
+
+  .search-container label {
+    margin-bottom: 0;
   }
-  
-  .search-input {
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    width: 100%;
-    max-width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
-  
-  .user-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-  }
-  
-  .user-table th,
-  .user-table td {
-    border: 1px solid #ddd;
-    padding: 0.75rem;
-    text-align: center;
-  }
-  
-  .user-table th {
-    background-color: #f4f4f4;
-    font-weight: bold;
-  }
-  
-  .user-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  .edit-btn {
-    background-color: #facc15;
-    color: #000;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .details-btn {
-    background-color: #3b82f6;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .edit-btn:hover {
-    background-color: #eab308;
-  }
-  
-  .details-btn:hover {
-    background-color: #2563eb;
-  }
-  label {
-    font-weight: 600;
-    margin-right: 0.5rem;
-  }
-  
-  #search {
-    display: inline-block;
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    width: 100%;
-    max-width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
+}

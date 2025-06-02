@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { catchError, of, throwError, timeout } from 'rxjs';
+import { CommonServiceService } from 'src/app/services/common-service.service';
 
 @Component({
   selector: 'app-users',
@@ -10,16 +13,91 @@ export class UsersComponent {
   users: any[] = [];
   filtered: any[] = [];
   searchTerm: string = '';
+  isLoading: boolean = false;
+  currentPage: number = 1;
+  itemsPerPage: number = 8;
+  selectedUser: any = null;
+showEditPopup: boolean = false;
+  editUserData: any =null;
 
-  constructor(private http: HttpClient) {}
+  constructor(public commonService: CommonServiceService, public router: Router) { }
 
   ngOnInit() {
-    this.http.get<any>('https://dummyjson.com/users').subscribe(res => {
-      this.users = this.filtered = res.users;
+    this.getUserData();
+  }
+
+  getUserData(): void {
+    this.isLoading = true;
+    this.commonService?.getUserData().pipe(
+      timeout(10000),
+      catchError(err => {
+        if (err?.name === 'TimeoutError') {
+          this.router.navigate(['/oops-try-again']);
+          this.isLoading = false;
+          return of(null);
+        } else {
+          return throwError(() => err);
+        }
+      })
+    ).subscribe({
+      next: (res) => {
+        if (res) {
+          this.users = this.filtered = res.users;
+          console.log('User data:', this.users);
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error fetching users:', err);
+        this.isLoading = false;
+      }
     });
   }
-//filter by name
+
+  get paginatedUsers() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filtered.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  totalPages(): number {
+    return Math.ceil(this.filtered.length / this.itemsPerPage);
+  }
+
+  changePage(page: number) {
+    if (page >= 1 && page <= this.totalPages()) {
+      this.currentPage = page;
+    }
+  }
+
   filterUsers() {
-    this.filtered = this.users.filter(user => user.firstName.toLowerCase().includes(this.searchTerm.toLowerCase()));
+    const search = this.searchTerm.toLowerCase();
+    this.filtered = this.users.filter(
+      user =>
+        user.firstName.toLowerCase().includes(search) ||
+        user.lastName.toLowerCase().includes(search)
+    );
+    this.currentPage = 1; // Reset to first page after filtering
+  }
+  openDetails(user: any) {
+    this.selectedUser = user;
+  }
+
+  closeModal() {
+    this.selectedUser = null;
+    this.editUserData=null;
+  }
+  onEdit(user: any) {
+    this.editUserData = { ...user }; // clone to avoid two-way binding
+    this.showEditPopup = true;
+  }
+  
+  onUpdate(updatedUser: any) {
+    console.log('Updated user:', updatedUser);
+    this.showEditPopup = false;
+    // Optionally send to API here
+  }
+  
+  onClosePopup() {
+    this.showEditPopup = false;
   }
 }

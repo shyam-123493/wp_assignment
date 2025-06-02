@@ -12,6 +12,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ToasterComponent } from './popup/toaster/toaster.component';
+import { OopsTryAgainComponentComponent } from './components/oops-try-again-component/oops-try-again-component.component';
+import { UserDetailsComponent } from './popup/user-details/user-details.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { ToasterComponent } from './popup/toaster/toaster.component';
     ProductsComponent,
     UsersComponent,
     NavbarComponent,
-    ToasterComponent
+    ToasterComponent,
+    OopsTryAgainComponentComponent,
+    UserDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -30,6 +34,7 @@ import { ToasterComponent } from './popup/toaster/toaster.component';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+  
     RouterModule.forRoot([]), 
     
   ],

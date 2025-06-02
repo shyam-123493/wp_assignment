@@ -1,39 +1,107 @@
-<h2>Product Page:</h2>
 <h3>Product Table</h3>
+<div *ngIf="isLoading" class="loader-container">
+  <div class="loader"></div>
+</div>
+<div *ngIf="!isLoading">
+  <button class="sort-btn" (click)="sortByPrice()">
+      Sort by Price: {{ isAscending ? 'Low → High' : 'High → Low' }}
+    </button>
+  
+  <br/><br />
+  
+  <table border="1" cellpadding="10" cellspacing="0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Price (USD)</th>
+        <th>Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of paginatedProducts; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ product.title }}</td>
+        <td>
+          {{ product.description | slice:0:60 }}...
+          <a (click)="viewMore(product)">View More</a>
+        </td>
+        <td>{{ product.category }}</td>
+        <td>${{ product.price }}</td>
+        <td>
+          <img [src]="product.thumbnail" alt="Product Image" width="50" height="50" />
+          <br />
+          <input type="file" #fileInput id="file-Input" (change)="handleFileInput($event)" />
+          <button class="update-btn" (click)="fileInput.click()">Update</button>
+          
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Prev</button>
+  
+    <button 
+      *ngFor="let page of [].constructor(totalPages()); let i = index" 
+      (click)="changePage(i + 1)" 
+      [class.active]="currentPage === i + 1">
+      {{ i + 1 }}
+    </button>
+  
+    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages()">Next</button>
+  </div>
+  
+</div>
 
-<!-- Sort Button -->
-<button class="sort-btn" (click)="sortByPrice()">
-    Sort by Price: {{ isAscending ? 'Low → High' : 'High → Low' }}
-  </button>
+<!-- Modal Overlay -->
+<div class="modal-overlay" *ngIf="selectedProduct">
+  <div class="modal">
+    <h2>{{ selectedProduct.title }}</h2>
+    <p><strong>ID:</strong> {{ selectedProduct.id }}</p>
+    <p><strong>Description:</strong> {{ selectedProduct.description }}</p>
+    <p><strong>Category:</strong> {{ selectedProduct.category }}</p>
+    <p><strong>Price:</strong> ${{ selectedProduct.price }}</p>
+    <p><strong>Discount %:</strong> {{ selectedProduct.discountPercentage }}%</p>
+    <p><strong>Rating:</strong> {{ selectedProduct.rating }}</p>
+    <p><strong>Stock:</strong> {{ selectedProduct.stock }}</p>
+    <p><strong>SKU:</strong> {{ selectedProduct.sku }}</p>
+    <p><strong>Weight:</strong> {{ selectedProduct.weight }} grams</p>
 
-<br/><br />
+    <p><strong>Dimensions (W x H x D):</strong> 
+      {{ selectedProduct.dimensions?.width }} x 
+      {{ selectedProduct.dimensions?.height }} x 
+      {{ selectedProduct.dimensions?.depth }} cm
+    </p>
 
-<table border="1" cellpadding="10" cellspacing="0">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Category</th>
-      <th>Price (USD)</th>
-      <th>Image</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let product of products; let i = index">
-      <td>{{ i + 1 }}</td>
-      <td>{{ product.title }}</td>
-      <td>
-        {{ product.description | slice:0:60 }}...
-        <a (click)="viewMore(product)">View More</a>
-      </td>
-      <td>{{ product.category }}</td>
-      <td>${{ product.price }}</td>
-      <td>
-        <img [src]="product.thumbnail" alt="Product Image" width="50" height="50" />
-        <br />
-        <button class="update-btn" (click)="updateProduct(product)">Update</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <p><strong>Warranty:</strong> {{ selectedProduct.warrantyInformation }}</p>
+    <p><strong>Shipping:</strong> {{ selectedProduct.shippingInformation }}</p>
+    <p><strong>Availability:</strong> {{ selectedProduct.availabilityStatus }}</p>
+
+    <p><strong>Return Policy:</strong> {{ selectedProduct.returnPolicy }}</p>
+    <p><strong>Minimum Order Quantity:</strong> {{ selectedProduct.minimumOrderQuantity }}</p>
+
+    <p><strong>Meta Created At:</strong> {{ selectedProduct.meta?.createdAt | date:'medium' }}</p>
+    <p><strong>Meta Updated At:</strong> {{ selectedProduct.meta?.updatedAt | date:'medium' }}</p>
+    <p><strong>Barcode:</strong> {{ selectedProduct.meta?.barcode }}</p>
+    <p><strong>QR Code:</strong> <img [src]="selectedProduct.meta?.qrCode" alt="QR Code" width="100"/></p>
+
+    <div *ngIf="selectedProduct.images?.length > 0">
+      <strong>Images:</strong><br />
+      <img *ngFor="let img of selectedProduct.images" [src]="img" alt="Product Image" width="150" style="margin-right:10px;"/>
+    </div>
+
+    <div *ngIf="selectedProduct.reviews?.length > 0">
+      <strong>Reviews:</strong>
+      <ul>
+        <li *ngFor="let review of selectedProduct.reviews">
+          <strong>{{ review.reviewerName }}</strong> ({{ review.rating }}★): {{ review.comment }} <br/>
+          <small>{{ review.date | date:'mediumDate' }}</small>
+        </li>
+      </ul>
+    </div>
+
+    <button class="close-btn" (click)="closeModal()">Close</button>
+  </div>
+</div>

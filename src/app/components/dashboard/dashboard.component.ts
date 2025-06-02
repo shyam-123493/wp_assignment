@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { ToasterComponent } from 'src/app/popup/toaster/toaster.component';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
+import { ToasterserviceService } from 'src/app/services/toasterservice.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +13,7 @@ export class DashboardComponent {
   user: any;
   error: any;
 
-  constructor(private http: HttpClient, private auth: AuthServiceService) {}
+  constructor(private http: HttpClient, private auth: AuthServiceService,public toaster:ToasterserviceService) {}
   ngOnInit() {
     const token = this.auth.getToken();  // Get token from AuthService 
     if (!token) {
@@ -33,5 +35,6 @@ export class DashboardComponent {
   }
   logout() {
     this.auth.logout();
+    this.toaster.showToast('Logout successful!', 'success');
   }
 }

@@ -1,40 +1,23 @@
-.toast {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #333;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 6px;
-    font-weight: 500;
-    z-index: 1000;
-    animation: fadeInOut 2s forwards;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  .toast.success {
-    background-color: #28a745;
-  }
-  
-  .toast.error {
-    background-color: #dc3545;
-  }
-  
-  @keyframes fadeInOut {
-    0% {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    10% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-  }
-  
+.toaster {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  color: white;
+  opacity: 0.95;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  z-index: 9999;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+.toaster.success {
+  background-color: #4caf50; /* green */
+}
+
+.toaster.error {
+  background-color: #f44336; /* red */
+}

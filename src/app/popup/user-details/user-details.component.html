@@ -1,0 +1,25 @@
+<div class="overlay">
+    <div class="popup-card">
+      <h2>Edit User</h2>
+  
+      <label>First Name:</label>
+      <input [(ngModel)]="editedUser.firstName" />
+  
+      <label>Last Name:</label>
+      <input [(ngModel)]="editedUser.lastName" />
+  
+      <label>Email:</label>
+      <input [(ngModel)]="editedUser.email" />
+  
+      <label>Phone:</label>
+      <input [(ngModel)]="editedUser.phone" />
+  
+      <!-- Add other fields as needed -->
+  
+      <div class="button-group">
+        <button (click)="saveChanges()">Save</button>
+        <button (click)="closePopup()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  

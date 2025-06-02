@@ -1,4 +1,5 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
+import { ToasterserviceService } from 'src/app/services/toasterservice.service';
 
 @Component({
   selector: 'app-toaster',
@@ -6,18 +7,24 @@ import { Component, Input, SimpleChanges } from '@angular/core';
   styleUrls: ['./toaster.component.scss']
 })
 export class ToasterComponent {
-  @Input() message = '';
-  @Input() type: 'success' | 'error' = 'success';
+  message = '';
+  type: 'success' | 'error' = 'success';
   show = false;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes?.message && this.message) {
-      this.show = true;
+  constructor(private toasterService: ToasterserviceService) {}
 
-      // Auto-hide after 2 seconds
-      setTimeout(() => {
-        this.show = false;
-      }, 2000);
-    }
+  ngOnInit(): void {
+    this.toasterService.toastState$.subscribe(toast => {
+      if (toast) {
+        this.message = toast.message;
+        this.type = toast.type;
+        this.show = true;
+
+        // Hide automatically after 2 seconds
+        setTimeout(() => {
+          this.show = false;
+        }, 2000);
+      }
+    });
   }
 }
