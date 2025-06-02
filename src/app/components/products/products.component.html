@@ -1,0 +1,39 @@
+<h2>Product Page:</h2>
+<h3>Product Table</h3>
+
+<!-- Sort Button -->
+<button class="sort-btn" (click)="sortByPrice()">
+    Sort by Price: {{ isAscending ? 'Low → High' : 'High → Low' }}
+  </button>
+
+<br/><br />
+
+<table border="1" cellpadding="10" cellspacing="0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th>Price (USD)</th>
+      <th>Image</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ product.title }}</td>
+      <td>
+        {{ product.description | slice:0:60 }}...
+        <a (click)="viewMore(product)">View More</a>
+      </td>
+      <td>{{ product.category }}</td>
+      <td>${{ product.price }}</td>
+      <td>
+        <img [src]="product.thumbnail" alt="Product Image" width="50" height="50" />
+        <br />
+        <button class="update-btn" (click)="updateProduct(product)">Update</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

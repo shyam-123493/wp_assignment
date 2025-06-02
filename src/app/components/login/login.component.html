@@ -1,0 +1,15 @@
+<!-- login.component.html -->
+<div class="login-container">
+    <div class="login-card">
+      <img  src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Avatar" class="avatar" />
+      <h2>LOGIN</h2>
+  
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <input formControlName="username" placeholder="Username" class="input-field" />
+        <input formControlName="password" type="password" placeholder="Password" class="input-field" />
+        <button type="submit" class="login-btn">LOGIN</button>
+        <div *ngIf="error" class="error-msg">{{ error }}</div>
+      </form>
+    </div>
+  </div>
+  

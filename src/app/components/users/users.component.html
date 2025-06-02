@@ -1,0 +1,48 @@
+<div class="users-container">
+    <h2>User Table</h2>
+    <label for="search">Search by Name:</label>
+    <input
+      [(ngModel)]="searchTerm"
+      (input)="filterUsers()"
+      placeholder="SearchBy users Name ..."
+      class="search-input"
+    />
+  
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Gender</th>
+          <th>Email ID</th>
+          <th>Phone No</th>
+          <th>Birth Date</th>
+          <th>Image</th>
+          <th>Edit</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filtered; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ user.firstName }}</td>
+          <td>{{ user.lastName }}</td>
+          <td>{{ user.gender }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.birthDate }}</td>
+          <td>
+            <img [src]="user.image" alt="user" class="user-img" />
+          </td>
+          <td>
+            <button class="edit-btn" onclick="alert('Edit button clicked!')">Edit</button>
+          </td>
+          <td>
+            <button class="details-btn" onclick="alert('View Details button clicked!')">View Details</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

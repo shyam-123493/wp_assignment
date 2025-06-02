@@ -1,0 +1,11 @@
+<div class="profile-container">
+    <div class="profile-card">
+      <img [src]="user?.image" alt="User Avatar" class="profile-avatar" />
+      <h2>{{ user?.firstName }} {{ user?.lastName }}</h2>
+      <p class="username">{{ user?.username }}</p>
+      <p>Gender: {{ user?.gender }}</p>
+      <a [href]="'mailto:' + user?.email">{{ user?.email }}</a>
+      <button (click)="logout()" class="logout-btn">Logout</button>
+    </div>
+  </div>
+  
