@@ -182,10 +182,6 @@ export class ProductsComponent {
     return lastChar === '=' || (secondLastChar === '=' && lastChar === '=');
   }
   updateFormWithFile(base64String: string) {
-    // this.form.patchValue({
-    //     versionData: base64String,
-    // });
-    // console.log("form values", this.form.value);
     this.scaledImage = this.sanitizer.bypassSecurityTrustUrl(`data:image/png;base64,${base64String}`);
     console.log("scaled Image", this.scaledImage);
     this.startedFileUpload = false;
@@ -200,7 +196,7 @@ export class ProductsComponent {
     console.log("maxFileSize::::", this.maxFileSizeInBytes);
     if (base64SizeInBytes > this.maxFileSizeInBytes) {
       this.startedFileUpload = false;
-      console.log("Base64 image size exceeds 2.5 MB. Not adding to the form.");
+      console.log("Base64 image size exceeds 2.5 MB.");
     } else {
       // Add base64 string to the form if it doesn't exceed 2.5 MB
       this.updateFormWithFile(base64String);

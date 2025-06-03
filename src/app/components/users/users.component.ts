@@ -17,13 +17,17 @@ export class UsersComponent {
   currentPage: number = 1;
   itemsPerPage: number = 8;
   selectedUser: any = null;
-showEditPopup: boolean = false;
-  editUserData: any =null;
+  showEditPopup: boolean = false;
+  editUserData: any = null;
 
   constructor(public commonService: CommonServiceService, public router: Router) { }
 
   ngOnInit() {
-    this.getUserData();
+    if (this.commonService?.userData) {
+      this.filtered = this.commonService?.userData || "";
+    } else {
+      this.getUserData();
+    }
   }
 
   getUserData(): void {
@@ -43,6 +47,7 @@ showEditPopup: boolean = false;
       next: (res) => {
         if (res) {
           this.users = this.filtered = res.users;
+          this.commonService.userData = this.users;
           console.log('User data:', this.users);
         }
         this.isLoading = false;
@@ -84,19 +89,20 @@ showEditPopup: boolean = false;
 
   closeModal() {
     this.selectedUser = null;
-    this.editUserData=null;
+    this.editUserData = null;
   }
   onEdit(user: any) {
-    this.editUserData = { ...user }; // clone to avoid two-way binding
+    this.editUserData = { ...user };
     this.showEditPopup = true;
   }
-  
+
   onUpdate(updatedUser: any) {
     console.log('Updated user:', updatedUser);
     this.showEditPopup = false;
+    this.getUserData();
     // Optionally send to API here
   }
-  
+
   onClosePopup() {
     this.showEditPopup = false;
   }

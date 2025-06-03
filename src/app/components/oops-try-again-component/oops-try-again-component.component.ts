@@ -10,6 +10,6 @@ export class OopsTryAgainComponentComponent {
   constructor(private router: Router) {}
   
   retry() {
-    this.router.navigate(['/dashboard']); 
+    this.router.navigate(['/login']); 
   }
 }

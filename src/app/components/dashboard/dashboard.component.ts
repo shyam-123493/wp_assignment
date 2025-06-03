@@ -13,14 +13,14 @@ export class DashboardComponent {
   user: any;
   error: any;
 
-  constructor(private http: HttpClient, private auth: AuthServiceService,public toaster:ToasterserviceService) {}
+  constructor(private http: HttpClient, private auth: AuthServiceService, public toaster: ToasterserviceService) { }
   ngOnInit() {
     const token = this.auth.getToken();  // Get token from AuthService 
     if (!token) {
       console.error('No token found!');
       return;
     }
-  
+
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.http.get('https://dummyjson.com/auth/me', { headers }).subscribe({
       next: (res) => {

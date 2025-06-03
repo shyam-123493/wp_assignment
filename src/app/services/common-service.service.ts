@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CommonServiceService {
+  userData:any;
   userApiUrl="https://dummyjson.com/users"
   productApiUrl="https://dummyjson.com/products"
   constructor(public http:HttpClient) { }

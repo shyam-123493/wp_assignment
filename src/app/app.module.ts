@@ -34,7 +34,6 @@ import { UserDetailsComponent } from './popup/user-details/user-details.componen
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-  
     RouterModule.forRoot([]), 
     
   ],
